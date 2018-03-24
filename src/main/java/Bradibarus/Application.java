@@ -15,11 +15,4 @@ public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
-
-    @Bean
-    CommandLineRunner init(EntryRepository entryRepository) {
-        return (evt) -> {
-            entryRepository.save(new Entry(new Date(1384651210), new ArrayList<Data>(){{add(new Data("key", 33 ));}}));
-        };
-    }
 }

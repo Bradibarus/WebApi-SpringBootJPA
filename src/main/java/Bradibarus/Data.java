@@ -1,6 +1,7 @@
 package Bradibarus;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 
@@ -13,17 +14,21 @@ public class Data {
     private int id;
 
     @Column
+    @JsonProperty("Name")
     private String name;
 
     @Column
+    @JsonProperty("Value")
     private int value;
 
-    public Data( String name, int value) {
+    public Data() {}
+
+    public void setName(String name) {
         this.name = name;
-        this.value = value;
     }
 
-    public Data() {
+    public void setValue(int value) {
+        this.value = value;
     }
 
     public String getName() {

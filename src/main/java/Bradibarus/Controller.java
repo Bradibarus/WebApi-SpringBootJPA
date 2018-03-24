@@ -1,14 +1,17 @@
 package Bradibarus;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.swing.text.html.parser.Entity;
 import java.util.UUID;
 
 @RestController
+@RequestMapping(value = "api")
 public class Controller {
 
     private final EntryRepository entryRepository;
@@ -18,9 +21,15 @@ public class Controller {
         this.entryRepository = entryRepository;
     }
 
-    @RequestMapping(method = RequestMethod.POST, consumes={"application/json", "application/xml"})
+    @RequestMapping(method = RequestMethod.POST, consumes = {"application/xml", "application/json"})
     public long putEntry(@RequestBody Entry entry){
-        Entry result = entryRepository.save(entry);
-        return result.getId();
+        return entryRepository.save(entry).getId();
+    }
+
+    @RequestMapping(method = RequestMethod.GET, produces = {"application/xml", "application/json"})
+    public ResponseEntity<?> getEntry(@RequestParam("id") long id){
+        return entryRepository.findById(id).map((e)->{
+                return ResponseEntity.ok(e);
+        } ).orElse(ResponseEntity.notFound().build());
     }
 }
