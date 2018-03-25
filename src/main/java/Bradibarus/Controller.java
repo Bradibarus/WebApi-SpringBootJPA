@@ -1,13 +1,10 @@
 package Bradibarus;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
-import javax.swing.text.html.parser.Entity;
+import javax.validation.Valid;
 import java.util.UUID;
 
 @RestController
@@ -22,14 +19,14 @@ public class Controller {
     }
 
     @RequestMapping(method = RequestMethod.POST, consumes = {"application/xml", "application/json"})
-    public long putEntry(@RequestBody Entry entry){
+    public UUID putEntry(@Valid @RequestBody Entry entry){
         return entryRepository.save(entry).getId();
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = {"application/xml", "application/json"})
-    public ResponseEntity<?> getEntry(@RequestParam("id") long id){
-        return entryRepository.findById(id).map((e)->{
-                return ResponseEntity.ok(e);
-        } ).orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<?> getEntry(@RequestParam("id") UUID uuid){
+        return entryRepository.findById(uuid)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.status(404).build());
     }
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Data {
@@ -15,10 +16,12 @@ public class Data {
 
     @Column
     @JsonProperty("Name")
+    @NotNull
     private String name;
 
     @Column
     @JsonProperty("Value")
+    @NotNull
     private int value;
 
     public Data() {}
