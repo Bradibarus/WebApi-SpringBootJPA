@@ -6,6 +6,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -24,10 +25,10 @@ public class Entry {
     //though UUID is unique itself, may be it is inefficient to use it as primary (and foreign) key ¯\_(ツ)_/¯
     //I considered using another smaller value for pk in Entry and fk in Data
 
-    @Column
+    @Column(columnDefinition = "DATETIME(6)")
     @JsonProperty("Date")
     @NotNull
-    private Date date;
+    private ZonedDateTime date;
 
     //if average data list size > 3, then two tables even with UUID as pk and fk are more efficient
     //then assigning each data row date and UUID
@@ -40,7 +41,12 @@ public class Entry {
 
     public Entry() {}
 
-    public Date getDate() {
+    public Entry(@NotNull ZonedDateTime date, @NotNull List<Data> data) {
+        this.date = date;
+        this.data = data;
+    }
+
+    public ZonedDateTime getDate() {
         return date;
     }
 
@@ -56,7 +62,7 @@ public class Entry {
         this.id = id;
     }
 
-    public void setDate(Date date) {
+    public void setDate(ZonedDateTime date) {
         this.date = date;
     }
 

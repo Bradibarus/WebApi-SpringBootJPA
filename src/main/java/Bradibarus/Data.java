@@ -26,6 +26,11 @@ public class Data {
 
     public Data() {}
 
+    public Data(@NotNull String name, @NotNull int value) {
+        this.name = name;
+        this.value = value;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -40,5 +45,13 @@ public class Data {
 
     public int getValue() {
         return value;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "Name=" + name +
+                ", Value=" + value +
+                "}";
     }
 }
